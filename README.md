@@ -4,14 +4,13 @@ This is a tiny Go package for reducing repetition and headache in handling JSON.
 
 **Installation**: `go get github.com/bcarrell/tinyjson`
 
-More instructions coming soon.
-
 ### Example
 
 	package main
 
 	import (
 		"net/http"
+		"strings"
 
 		"github.com/bcarrell/tinyjson"
 	)
@@ -39,7 +38,9 @@ More instructions coming soon.
 		case "POST": // demonstrates tinyjson.Read
 			var person person
 			tinyjson.Read(r, &person)
-			tinyjson.Write(w, &person) // for the example, just spit it back out
+			person.Name = strings.ToLower(person.Name)
+			person.Gender = strings.ToLower(person.Gender)
+			tinyjson.Write(w, &person)
 		}
 	}
 
@@ -61,4 +62,4 @@ More instructions coming soon.
 
 	❯ curl -X POST -H "Content-Type: application/json" -d '{"name":"Gaius Baltar","gender":"Male","is_human":true}' http://localhost:3000
 
-	{"name":"Gaius Baltar","gender":"Male","is_human":true}
+	{"name":"gaius baltar","gender":"male","is_human":true}

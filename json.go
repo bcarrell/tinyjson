@@ -2,6 +2,7 @@ package tinyjson
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 )
@@ -20,5 +21,22 @@ func Write(w http.ResponseWriter, v interface{}) {
 
 // Read provides some sugar for decoding a JSON payload from a HTTP request
 func Read(r *http.Request, v interface{}) error {
-	return json.NewDecoder(r.Body).Decode(&v)
+	return json.NewDecoder(r.Body).Decode(v)
+}
+
+// Get provides a neat little wrapper for making GET requests to endpoints
+// where you expect a JSON payload in response to save effort unmarshaling
+// the response
+func Get(url string, v interface{}) (*http.Response, error) {
+	res, err := http.Get(url)
+	defer res.Body.Close()
+	if err != nil {
+		return res, err
+	}
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return res, err
+	}
+	err = json.Unmarshal(body, v)
+	return res, err
 }

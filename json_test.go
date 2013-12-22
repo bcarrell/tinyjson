@@ -51,10 +51,11 @@ func TestWrite(t *testing.T) {
 	body, _ := ioutil.ReadAll(res.Body)
 	json.Unmarshal(body, &tresponse)
 
-	// assertions
+	// --- assertions ---
 	expect(t, res.Header.Get("Content-Type"), "application/json")
 	expect(t, tresponse.Ok, true)
 	expect(t, tresponse.Msg, "Success!")
+	// --- end assertions ---
 }
 
 func TestRead(t *testing.T) {
@@ -62,13 +63,27 @@ func TestRead(t *testing.T) {
 		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			var req Request
 			Read(r, &req)
+
+			// --- assertions ---
 			expect(t, req.Name, "Cylon Number Six")
 			expect(t, req.Gender, "Female")
 			expect(t, req.IsHuman, false)
+			// --- end assertions ---
 		}))
-
 	defer ts.Close()
 	json := `{"name":"Cylon Number Six", "gender": "Female", "is_human": false}`
 	body := strings.NewReader(json)
 	http.Post(ts.URL, "application/json", body)
+}
+
+func TestGet(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(writeHandler))
+	defer ts.Close()
+	var tresponse Response
+	Get(ts.URL, &tresponse)
+
+	// --- assertions ---
+	expect(t, tresponse.Ok, true)
+	expect(t, tresponse.Msg, "Success!")
+	// --- end assertions ---
 }

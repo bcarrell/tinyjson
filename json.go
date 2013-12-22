@@ -16,6 +16,7 @@ func Write(w http.ResponseWriter, v interface{}) {
 	w.Write(payload)
 }
 
+// a handy one-liner to sugar up receiving JSON POST requests
 func Read(r *http.Request, v interface{}) error {
-
+	return json.NewDecoder(r.Body).Decode(&v)
 }

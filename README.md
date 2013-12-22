@@ -39,3 +39,11 @@ More instructions coming soon.
 	}
 
 `go run main.go`
+
+	❯ curl -i localhost:3000              -- INS --
+	HTTP/1.1 200 OK
+	Content-Length: 62
+	Content-Type: application/json
+	Date: Sun, 22 Dec 2013 13:05:49 GMT
+
+	{"name":"Cylon Number Six","gender":"Female","is_human":false}

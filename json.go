@@ -3,6 +3,7 @@ package tinyjson
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 )
 
 func Write(w http.ResponseWriter, v interface{}) {
@@ -11,6 +12,7 @@ func Write(w http.ResponseWriter, v interface{}) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Length", strconv.Itoa(len(content)))
 	w.Write(payload)
 }
 

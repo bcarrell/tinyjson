@@ -6,6 +6,8 @@ import (
 	"strconv"
 )
 
+// Write marshals JSON, sets appropriate headers, and writes to a response
+// If an error happens, we'll return a 500 error
 func Write(w http.ResponseWriter, v interface{}) {
 	payload, err := json.Marshal(v)
 	if err != nil {
@@ -16,7 +18,7 @@ func Write(w http.ResponseWriter, v interface{}) {
 	w.Write(payload)
 }
 
-// a handy one-liner to sugar up receiving JSON POST requests
+// Read provides some sugar for decoding a JSON payload from a HTTP request
 func Read(r *http.Request, v interface{}) error {
 	return json.NewDecoder(r.Body).Decode(&v)
 }

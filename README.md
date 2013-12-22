@@ -43,9 +43,11 @@ More instructions coming soon.
 		}
 	}
 
+<!-- separate -->
 
 	go run main.go
 
+<!-- separate -->
 
 	❯ curl -i localhost:3000              -- INS --
 	HTTP/1.1 200 OK
@@ -55,6 +57,7 @@ More instructions coming soon.
 
 	{"name":"Cylon Number Six","gender":"Female","is_human":false}
 
+<!-- separate -->
 
 	❯ curl -X POST -H "Content-Type: application/json" -d '{"name":"Gaius Baltar","gender":"Male","is_human":true}' http://localhost:3000
 
